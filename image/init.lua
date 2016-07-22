@@ -391,7 +391,7 @@ TransformImage.contrast = argcheck{
 
 TransformImage.randomOrder = argcheck{
    {name='self', type='vision.TransformImage'},
-   {name='ts', type='number'},
+   {name='ts', type='table'},
    call =
       function(self, ts)
          return function(img)
