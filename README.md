@@ -33,6 +33,6 @@ luarocks install https://github.com/Cadene/torchnet-vision.git
 require 'image'
 local vision = require 'torchnet-vision'
 local transf = vision.TransformImage()
-print(transf:randomScale{minSize=200,maxSize=300}(image.lena())):size()
+print(transf:randomScale{minSize=200,maxSize=300}(image.lena()):size())
 
 ```
