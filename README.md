@@ -23,9 +23,7 @@ lua files, so it is straightforward to install it with *luarocks*
 ```
 luarocks install torchnet
 luarocks install image
-git clone https://github.com/Cadene/torchnet-vision.git
-cd torchnet-vision
-luarocks make rocks/torchnet-vision-scm-1.rockspec
+luarocks install https://github.com/Cadene/torchnet-vision.git
 ```
 
 
