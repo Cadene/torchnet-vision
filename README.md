@@ -4,8 +4,8 @@
 of abstractions aiming at encouraging code re-use as well as encouraging
 modular programming.
 
-At the moment, *torchnet-vision* provides on class:
-  - TransformImage: handling and pre-processing image in various ways.
+At the moment, *torchnet-vision* provides one class:
+  - TransformImage: pre-processing image in various ways.
 
 For an overview of the *torchnet* framework, please also refer to [this paper](https://lvdmaaten.github.io/publications/papers/Torchnet_2016.pdf).
 
