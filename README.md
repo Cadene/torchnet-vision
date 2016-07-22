@@ -1,6 +1,6 @@
 # torchnet-vision
 
-*torchnet-vision* is a plugin for [torchnet][torch](http://github.com/torchnet/torchnet) which provides a set
+*torchnet-vision* is a plugin for [torchnet](http://github.com/torchnet/torchnet) which provides a set
 of abstractions aiming at encouraging code re-use as well as encouraging
 modular programming.
 
