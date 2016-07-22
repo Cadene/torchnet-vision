@@ -37,3 +37,15 @@ local transf = vision.TransformImage()
 print(transf:randomScale{minSize=200,maxSize=300}(image.lena()):size())
 
 ```
+
+
+## Roadmap
+
+- defining names for package and classes (vision?)
+- keep TransformImage non-static ?
+- add docs to TransformImage methods
+- add test
+- add a method to tnt.DataIterator to process the mean and std
+- add a better system to preprocess images than tnt.transform (especially to add or remove TransformImage.colorNormalize)
+- add data loaders (largscale or not)
+- add video directory
