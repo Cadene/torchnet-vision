@@ -9,14 +9,14 @@
 
 require 'torch'
 
-local tnt = require 'torchnet-vision.env'
+local vision = require 'torchnet-vision.env'
 local doc = require 'argcheck.doc'
 
 doc[[]]
 
 require 'torchnet-vision.image'
-require 'torchnet-vision.image.transformimage'
+-- require 'torchnet-vision.image.transformimage'
 
 require 'torchnet-vision.test.test'
 
-return tnt.vision
+return vision

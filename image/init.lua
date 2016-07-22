@@ -9,18 +9,17 @@
 --  Image transforms for data augmentation and input normalization
 --
 
-local tnt = require 'torchnet'
-local vision = require 'torchnet-vision'
+local vision = require 'torchnet-vision.env'
 local argcheck = require 'argcheck'
 
 require 'image'
 
 local TransformImage =
-   torch.class('vision.TransformImage', vision, tnt)
+   torch.class('vision.TransformImage', vision)
 
 TransformImage.__init = argcheck{
    {name='self', type='vision.TransformImage'},
-   {name='opt', type='table', opt=true}
+   {name='opt', type='table', opt=true},
    call = 
       function(self, opt)
          self.__opt = opt
@@ -51,7 +50,7 @@ TransformImage.colorNormalize = argcheck{
 TransformImage.scale = argcheck{
    {name='self', type='vision.TransformImage'},
    {name='size', type='number'},
-   {name='interpolation', type='string', default='bicubic'}
+   {name='interpolation', type='string', default='bicubic'},
    call =
       function(self, size, interpolation)
          return function(img)
@@ -253,11 +252,11 @@ TransformImage.lighting = argcheck{
    {name='self', type='vision.TransformImage'},
    {name='alphastd', type='number'},
    {name='eigval', type='torch.*Tensor',
-     default=torch.Tensor{ 0.2175, 0.0188, 0.0045 }
+     default=torch.Tensor{ 0.2175, 0.0188, 0.0045 },
      check=function(x)
               return x:dim() == 1 and x:size(1) == 3
            end},
-   {name='eigvec', type='torch.*Tensor'},
+   {name='eigvec', type='torch.*Tensor',
      default=torch.Tensor{
        { -0.5675,  0.7192,  0.4009 },
        { -0.5808, -0.0045, -0.8140 },
@@ -297,7 +296,7 @@ end
 TransformImage.grayscale = argcheck{
    {name='self', type='vision.TransformImage'},
    {name='rgbval', type='torch.*Tensor',
-     default=torch.Tensor{ 0.299, 0.587, 0.114 }
+     default=torch.Tensor{ 0.299, 0.587, 0.114 },
      check=function(x)
               return x:dim() == 1 and x:size(1) == 3
            end},
@@ -319,7 +318,7 @@ TransformImage.grayscale = argcheck{
 TransformImage.moveColor = argcheck{
    {name='self', type='vision.TransformImage'},
    {name='colormap', type='torch.ByteTensor',
-     default=torch.ByteTensor{ 3, 2, 1 }
+     default=torch.ByteTensor{ 3, 2, 1 },
      check=function(x)
               return x:dim() == 1 and x:size(1) == 3
            end},
