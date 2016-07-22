@@ -31,7 +31,7 @@ luarocks make rocks/torchnet-vision-scm-1.rockspec
 
 ## Documentation
 
-```
+```lua
 local vision = require 'torchnet-vision'
 local traImg = vision.TransformImage()
 print(traImg:randomScale{minSize=200,maxSize=300}(torch.lena())):size()
