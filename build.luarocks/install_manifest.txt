@@ -1,5 +1,0 @@
-/Users/remicadene/torch/install/lib/luarocks/rocks/torchnetvision/scm-1/lua/torchnet/env.lua
-/Users/remicadene/torch/install/lib/luarocks/rocks/torchnetvision/scm-1/lua/torchnet/image/transformimage.lua
-/Users/remicadene/torch/install/lib/luarocks/rocks/torchnetvision/scm-1/lua/torchnet/init.lua
-/Users/remicadene/torch/install/lib/luarocks/rocks/torchnetvision/scm-1/lua/torchnet/test/test.lua
-/Users/remicadene/torch/install/lib/luarocks/rocks/torchnetvision/scm-1/lua/torchnet/test/transformimage.lua

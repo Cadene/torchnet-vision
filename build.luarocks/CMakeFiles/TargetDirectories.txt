@@ -1,6 +1,0 @@
-/Users/remicadene/Documents/torchnet-vision/build.luarocks/CMakeFiles/edit_cache.dir
-/Users/remicadene/Documents/torchnet-vision/build.luarocks/CMakeFiles/rebuild_cache.dir
-/Users/remicadene/Documents/torchnet-vision/build.luarocks/CMakeFiles/list_install_components.dir
-/Users/remicadene/Documents/torchnet-vision/build.luarocks/CMakeFiles/install.dir
-/Users/remicadene/Documents/torchnet-vision/build.luarocks/CMakeFiles/install/strip.dir
-/Users/remicadene/Documents/torchnet-vision/build.luarocks/CMakeFiles/install/local.dir
