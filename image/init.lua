@@ -29,11 +29,14 @@ TransformImage.__init = argcheck{
 TransformImage.colorNormalize = argcheck{
    doc = [[]],
    {name='self', type='vision.TransformImage'},
-   {name='mean', type='torch.*Tensor'},
+   {name='mean', type='torch.*Tensor', opt=true},
    {name='std', type='torch.*Tensor', opt=true},
    call =
       function(self, mean, std)
          return function(img)
+            if not (mean or std) then
+               return img
+            end
             img = img:clone()
             for i=1,3 do
                img[i]:add(-mean[i])
