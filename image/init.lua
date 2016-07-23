@@ -29,8 +29,10 @@ TransformImage.__init = argcheck{
 TransformImage.colorNormalize = argcheck{
    doc = [[]],
    {name='self', type='vision.TransformImage'},
-   {name='mean', type='torch.*Tensor', opt=true},
-   {name='std', type='torch.*Tensor', opt=true},
+   {name='mean', type='torch.*Tensor', opt=true,
+    check=function(x) return x:dim() == 1 and x:size(1) == 3 end}},
+   {name='std', type='torch.*Tensor', opt=true,
+    check=function(x) return x:dim() == 1 and x:size(1) == 3 end}},
    call =
       function(self, mean, std)
          return function(img)
@@ -43,6 +45,29 @@ TransformImage.colorNormalize = argcheck{
                if std then
                   img[i]:div(std[i])
                end
+            end
+            return img
+         end
+      end
+}
+
+TransformImage.colorNormalize = argcheck{
+   doc = [[]],
+   {name='self', type='vision.TransformImage'},
+   {name='mean', type='torch.*Tensor', opt=true,
+    check=function(x) return x:dim() == 3 end}},
+   {name='std', type='torch.*Tensor', opt=true,
+    check=function(x) return x:dim() == 3 end}},
+   call =
+      function(self, mean, std)
+         return function(img)
+            if not (mean or std) then
+               return img
+            end
+            img = img:clone()
+            img:add(mean)
+            if std then
+               img:div(std)
             end
             return img
          end
