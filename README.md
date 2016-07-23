@@ -35,21 +35,23 @@ require 'image'
 tnt = require 'torchnet'
 vision = require 'torchnet-vision'
 
-inceptionv3 = vision.model.inceptionv3
-transformimage = vision.image.transformimage
-
 augmentation = tnt.transform.compose{
-   transformimage.randomScale{minSize=299,maxSize=350},
-   transformimage.randomCrop(299),
-   transformimage.colorNormalize{
-      mean = inceptionv3.mean(),
-      std  = inceptionv3.std()
-   }
+   vision.image.transformimage.randomScale{minSize=299,maxSize=350},
+   vision.image.transformimage.randomCrop(299),
+   vision.image.transformimage.colorNormalize{
+      mean = vision.models.inceptionv3.mean(),
+      std  = vision.models.inceptionv3.std()
+   },
+   function(img) return img:float() end
 }
-print(augmentation(image.lena()):size())
+img = augmentation(image.lena())
 
-net = inceptionv3.load('tmp/inceptionv3.t7') -- download included
-print(net)
+net = vision.models.inceptionv3.load{ -- download included
+   filename = 'tmp/inceptionv3.t7',
+   fextract = true
+}
+net:evaluate()
+print(net:forward(img:view(1,3,299,299)):size())
 ```
 
 

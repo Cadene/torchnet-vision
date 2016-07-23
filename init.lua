@@ -8,7 +8,7 @@ local doc = require 'argcheck.doc'
 
 require 'torchnet-vision.image'
 
-require 'torchnet-vision.model'
+require 'torchnet-vision.models'
 
 require 'torchnet-vision.test.test'
 
