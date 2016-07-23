@@ -17,44 +17,31 @@ local transformimage = {}
 
 transformimage.colorNormalize = argcheck{
    doc = [[]],
-   {name='mean', type='torch.*Tensor', opt=true,
-    check=function(x) return x:dim() == 1 and x:size(1) == 3 end},
-   {name='std', type='torch.*Tensor', opt=true,
-    check=function(x) return x:dim() == 1 and x:size(1) == 3 end},
+   {name='mean', type='torch.*Tensor', opt=true},
+   {name='std', type='torch.*Tensor', opt=true},
    call =
-      function(self, mean, std)
+      function(mean, std)
          return function(img)
             if not (mean or std) then
                return img
             end
-            img = img:clone()
-            for i=1,3 do
-               img[i]:add(-mean[i])
-               if std then
-                  img[i]:div(std[i])
+            if mean:dim() == 1 and mean:size(1) == 3 and
+               std:dim() == 1  and std:size(1) == 3 then
+               img = img:clone()
+               for i=1,3 do
+                  img[i]:add(-mean[i])
+                  if std then
+                     img[i]:div(std[i])
+                  end
                end
-            end
-            return img
-         end
-      end
-}
-
-transformimage.colorNormalize = argcheck{
-   doc = [[]],
-   {name='mean', type='torch.*Tensor', opt=true,
-    check=function(x) return x:dim() == 3 end},
-   {name='std', type='torch.*Tensor', opt=true,
-    check=function(x) return x:dim() == 3 end},
-   call =
-      function(self, mean, std)
-         return function(img)
-            if not (mean or std) then
-               return img
-            end
-            img = img:clone()
-            img:add(mean)
-            if std then
-               img:div(std)
+            elseif mean:dim() == 3 and std:dim() == 3 then
+               img = img:clone()
+               img:add(mean)
+               if std then
+                  img:div(std)
+               end
+            else
+               assert(false, 'must be {128,128,128} or 3d tensor')
             end
             return img
          end
@@ -66,7 +53,7 @@ transformimage.scale = argcheck{
    {name='size', type='number'},
    {name='interpolation', type='string', default='bicubic'},
    call =
-      function(self, size, interpolation)
+      function(size, interpolation)
          return function(img)
             local w, h = img:size(3), img:size(2)
             if (w <= h and w == size) or (h <= w and h == size) then
@@ -85,7 +72,7 @@ transformimage.scale = argcheck{
 transformimage.centerCrop = argcheck{
    {name='size', type='number'},
    call =
-      function(self, size)
+      function(size)
          return function(img)
             local w1 = math.ceil((img:size(3) - size)/2)
             local h1 = math.ceil((img:size(2) - size)/2)
@@ -99,7 +86,7 @@ transformimage.randomCrop = argcheck{
    {name='size', type='number'},
    {name='padding', type='number', default=0},
    call =
-      function(self, size, padding)
+      function(size, padding)
          return function(img)
             if padding > 0 then
                local temp = img.new(3, img:size(2) + 2*padding, img:size(3) + 2*padding)
@@ -127,7 +114,7 @@ transformimage.randomCrop = argcheck{
 transformimage.tenCrop = argcheck{
    {name='size', type='number'},
    call =
-      function(self, size)
+      function(size)
          local centerCrop = transformimage.CenterCrop(size)
 
          return function(img)
@@ -157,7 +144,7 @@ transformimage.randomScale = argcheck{
    {name='minSize', type='number'},
    {name='maxSize', type='number'},
    call =
-      function(self, minSize, maxSize)
+      function(minSize, maxSize)
          return function(img)
             local w, h = img:size(3), img:size(2)
 
@@ -178,7 +165,7 @@ transformimage.randomScale = argcheck{
 transformimage.randomSizedCrop = argcheck{
    {name='size', type='number'},
    call =
-      function(self, size)
+      function(size)
          local scale = transformimage.Scale(size)
          local crop = transformimage.CenterCrop(size)
 
@@ -217,7 +204,7 @@ transformimage.randomSizedCrop = argcheck{
 transformimage.horizontalFlip = argcheck{
    {name='prob', type='number', default=0.5},
    call =
-      function(self, prob)
+      function(prob)
          return function(img)
             if torch.uniform() < prob then
                img = image.hflip(img)
@@ -230,7 +217,7 @@ transformimage.horizontalFlip = argcheck{
 transformimage.verticalFlip = argcheck{
    {name='prob', type='number', default=0.5},
    call =
-      function(self, prob)
+      function(prob)
          return function(img)
             if torch.uniform() < prob then
                img = image.vflip(img)
@@ -243,7 +230,7 @@ transformimage.verticalFlip = argcheck{
 transformimage.rotation = argcheck{
    {name='deg', type='number'},
    call =
-      function(self, deg)
+      function(deg)
          return function(img)
             if deg ~= 0 then
                img = image.rotate(img, (torch.uniform() - 0.5) * deg * math.pi / 180, 'bilinear')
@@ -272,7 +259,7 @@ transformimage.lighting = argcheck{
                                   and x:size(2) == 3
            end},
    call =
-      function(self, alphastd, eigval, eigvec)
+      function(alphastd, eigval, eigvec)
          return function(img)
             if alphastd == 0 then
                return img
@@ -305,7 +292,7 @@ transformimage.grayscale = argcheck{
               return x:dim() == 1 and x:size(1) == 3
            end},
    call =
-      function(self, rgbval)
+      function(rgbval)
          return function(img)
             local dst = torch.new():resizeAs(img)
             dst[1]:zero()
@@ -326,7 +313,7 @@ transformimage.moveColor = argcheck{
               return x:dim() == 1 and x:size(1) == 3
            end},
    call =
-      function(self)
+      function(colormap)
          return function(img)
             local dst = torch.new():resizeAs(img)
             dst[colormap[1]]:copy(img[1])
@@ -340,13 +327,11 @@ transformimage.moveColor = argcheck{
 transformimage.saturation = argcheck{
    {name='var', type='number'},
    call =
-      function(self, var)
+      function(var)
          local gs
-
          return function(img)
             gs = gs or img.new()
-            self:grayscale(gs, img)
-
+            transformimage.grayscale(gs, img)
             local alpha = 1.0 + torch.uniform(-var, var)
             blend(img, gs, alpha)
             return img
@@ -357,13 +342,11 @@ transformimage.saturation = argcheck{
 transformimage.brightness = argcheck{
    {name='var', type='number'},
    call =
-      function(self, var)
+      function(var)
          local gs
-
          return function(img)
             gs = gs or img.new()
             gs:resizeAs(img):zero()
-
             local alpha = 1.0 + torch.uniform(-var, var)
             blend(img, gs, alpha)
             return img
@@ -374,12 +357,12 @@ transformimage.brightness = argcheck{
 transformimage.contrast = argcheck{
    {name='var', type='number'},
    call =
-      function(self, var)
+      function(var)
          local gs
 
          return function(img)
             gs = gs or img.new()
-            self:grayscale(gs, img)
+            transformimage.grayscale(gs, img)
             gs:fill(gs[1]:mean())
 
             local alpha = 1.0 + torch.uniform(-var, var)
@@ -392,7 +375,7 @@ transformimage.contrast = argcheck{
 transformimage.randomOrder = argcheck{
    {name='ts', type='table'},
    call =
-      function(self, ts)
+      function(ts)
          return function(img)
             local img = img.img or img
             local order = torch.randperm(#ts)
@@ -409,7 +392,7 @@ transformimage.colorJitter = argcheck{
    {name='contrast', type='number', default=0},
    {name='saturation', type='number', default=0},
    call =
-      function(self, brightness, contrast, saturation)
+      function(brightness, contrast, saturation)
          local ts = {}
          if brightness ~= 0 then
             table.insert(ts, self:brightness(brightness))
@@ -425,7 +408,7 @@ transformimage.colorJitter = argcheck{
             return function(img) return img end
          end
 
-         return self:randomOrder(ts)
+         return transformimage.randomOrder(ts)
       end
 }
 

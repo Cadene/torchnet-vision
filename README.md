@@ -46,8 +46,10 @@ augmentation = tnt.transform.compose{
       std  = inceptionv3.std()
    }
 }
+print(augmentation(image.lena()):size())
+
 net = inceptionv3.load('tmp/inceptionv3.t7') -- download included
-print(net:forward(augmentation(image.lena())):size())
+print(net)
 ```
 
 
