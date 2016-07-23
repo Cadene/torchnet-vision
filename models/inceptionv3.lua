@@ -24,6 +24,7 @@ inceptionv3.load = argcheck{
          local net = torch.load(filename)
          if ftfactor then
             net:remove() -- nn.SoftMax
+            net:remove() -- nn.Linear
             net:add(nn.GradientReversal(-1*ftfactor))
             net:add(nn.Linear(2048, nclasses))
          end
