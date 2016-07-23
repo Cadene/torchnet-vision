@@ -19,6 +19,7 @@ dependencies = {
    "torch >= 7.0",
    "argcheck >= 1.0",
    "tds >= 1.0",
+   "image >= 1.1"
 }
 
 build = {

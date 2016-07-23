@@ -18,11 +18,10 @@ already installed, make sure you have an up-to-date version of
 [*argcheck*](https://github.com/torch/argcheck), otherwise you will get
 weird errors at runtime.
 
-Assuming *torch* is already installed, the *torchnet* core is only a set of
+Assuming *torch* is already installed, the *torchnet* and *torchnet-vision* cores are only a set of
 lua files, so it is straightforward to install it with *luarocks*
 ```
 luarocks install torchnet
-luarocks install image
 git clone https://github.com/Cadene/torchnet-vision.git
 cd torchnet-vision
 luarocks make rocks/torchnet-vision-scm-1.rockspec
@@ -33,10 +32,22 @@ luarocks make rocks/torchnet-vision-scm-1.rockspec
 
 ```lua
 require 'image'
-local vision = require 'torchnet-vision'
-local transf = vision.TransformImage()
-print(transf:randomScale{minSize=200,maxSize=300}(image.lena()):size())
+tnt = require 'torchnet'
+vision = require 'torchnet-vision'
 
+inceptionv3 = vision.model.inceptionv3
+transformimage = vision.image.transformimage
+
+augmentation = tnt.transform.compose{
+   transformimage.randomScale{minSize=299,maxSize=350},
+   transformimage.randomCrop(299),
+   transformimage.colorNormalize{
+      mean = inceptionv3.mean(),
+      std  = inceptionv3.std()
+   }
+}
+net = inceptionv3.load('tmp/inceptionv3.t7') -- download included
+print(net:forward(augmentation(image.lena())):size())
 ```
 
 

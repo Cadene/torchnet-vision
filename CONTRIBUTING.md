@@ -1,4 +1,4 @@
-# Contributing to Torchnet
+# Contributing to Torchnet-Vision
 We want to make contributing to this project as easy and transparent as
 possible.
 
@@ -27,5 +27,5 @@ clear and has sufficient instructions to be able to reproduce the issue.
 * variables names all lower-case, no underlines
 
 ## License
-By contributing to Torchnet, you agree that your contributions will be licensed
+By contributing to Torchnet-Vision, you agree that your contributions will be licensed
 under its BSD license.
