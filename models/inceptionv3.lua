@@ -34,6 +34,7 @@ inceptionv3.load = argcheck{
 inceptionv3.load = argcheck{
    {name='filename', type='string'},
    {name='fextract', type='boolean', opt=true},
+   overload = inceptionv3.load,
    call =
       function(filename, fextract)
          if not path.exists(filename) then
