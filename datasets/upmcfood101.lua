@@ -12,3 +12,5 @@ upmcfood101.__download = argcheck{
          ..'tar -xzf '..paths.concat(dirname, 'UPMC_Food101.tar.gz')..' -C '..dirname)
       end
 }
+
+return upmcfood101

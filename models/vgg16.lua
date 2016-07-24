@@ -38,7 +38,6 @@ vgg16.loadFinetuning = argcheck{
             net:get(i):reset()
          end
          net:insert(nn.GradientReversal(-1*ftfactor), layerid)
-         end
          return net
       end
 }
@@ -49,7 +48,6 @@ vgg16.loadExtracting = argcheck{
    call =
       function(filename, layerid)
          local net = vgg16.load(filename)
-         end
          for i=net:size(), layerid+1, -1 do
             net:remove()
          end
