@@ -25,9 +25,7 @@ transformimage.colorNormalize = argcheck{
             if not (mean or std) then
                return img
             end
-            if mean:dim() == 1 and mean:size(1) == 3 and
-               std:dim() == 1  and std:size(1) == 3 then
-               img = img:clone()
+            if mean:dim() == 1 and mean:size(1) == 3 then
                for i=1,3 do
                   img[i]:add(-mean[i])
                   if std then
@@ -35,7 +33,6 @@ transformimage.colorNormalize = argcheck{
                   end
                end
             elseif mean:dim() == 3 and std:dim() == 3 then
-               img = img:clone()
                img:add(mean)
                if std then
                   img:div(std)
@@ -294,7 +291,7 @@ transformimage.grayscale = argcheck{
    call =
       function(rgbval)
          return function(img)
-            local dst = torch.new():resizeAs(img)
+            local dst = img.new():resizeAs(img)
             dst[1]:zero()
             dst[1]:add(rgbval[1], img[1])
                   :add(rgbval[2], img[2])
@@ -315,7 +312,7 @@ transformimage.moveColor = argcheck{
    call =
       function(colormap)
          return function(img)
-            local dst = torch.new():resizeAs(img)
+            local dst = img.new():resizeAs(img)
             dst[colormap[1]]:copy(img[1])
             dst[colormap[2]]:copy(img[2])
             dst[colormap[3]]:copy(img[3])
@@ -413,3 +410,4 @@ transformimage.colorJitter = argcheck{
 }
 
 return transformimage
+

@@ -33,7 +33,7 @@ vgg16.loadFinetuning = argcheck{
          local net = vgg16.load(filename)
          net:remove() -- nn.SoftMax
          net:remove() -- nn.Linear
-         net:add(nn.Linear(2048, nclasses))
+         net:add(nn.Linear(4096, nclasses))
          for i=net:size(), layerid+1, -1 do
             net:get(i):reset()
          end

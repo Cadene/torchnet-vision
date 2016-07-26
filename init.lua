@@ -10,6 +10,8 @@ require 'torchnet-vision.image'
 
 require 'torchnet-vision.models'
 
+require 'torchnet-vision.datasets'
+
 require 'torchnet-vision.test.test'
 
 tnt.makepackageserializable(vision, 'torchnet-vision')

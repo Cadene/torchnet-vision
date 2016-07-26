@@ -17,6 +17,14 @@ mit67.__download = argcheck{
            'tar -C '..dirname..' -xf '..dirname..'/indoorCVPR_09.tar')
          os.execute('wget '..urltrainimages..' -P '..dirname)
          os.execute('wget '..urltestimages..' -P '..dirname)
+         local dirimg = paths.concat(dirname,'Images')
+         local classes, _ = utils.findClasses(dirimg)
+         for _, class in pairs(classes) do
+            print('Convert class '..class..' to jpg ')
+            os.execute('mogrify -format jpg '
+               ..paths.concat(dirimg, class, '*.jpg'))
+            -- the extension is jpg, but img need to be converted to jpg
+         end
       end
 }
 
