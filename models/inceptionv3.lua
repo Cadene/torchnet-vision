@@ -7,7 +7,7 @@ inceptionv3.__download = argcheck{
    call =
       function(filename)
          os.execute('mkdir -p '..paths.dirname(filename)..';'
-                  ..'wget http://webia.lip6.fr/~cadene/Downloads/InceptionV3.t7'
+                  ..'wget http://webia.lip6.fr/~cadene/Downloads/inceptionv3.t7'
                       ..' -O '..filename)
       end
 }

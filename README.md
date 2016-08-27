@@ -30,6 +30,8 @@ luarocks make rocks/torchnet-vision-scm-1.rockspec
 
 ## Documentation
 
+### Extraction features from lena with inceptionv3
+
 ```lua
 require 'image'
 tnt = require 'torchnet'
@@ -39,26 +41,33 @@ augmentation = tnt.transform.compose{
    vision.image.transformimage.randomScale{minSize=299,maxSize=350},
    vision.image.transformimage.randomCrop(299),
    vision.image.transformimage.colorNormalize{
-      mean = vision.models.inceptionv3.mean(),
-      std  = vision.models.inceptionv3.std()
+      mean = vision.models.inceptionv3.mean,
+      std  = vision.models.inceptionv3.std
    },
    function(img) return img:float() end
 }
 img = augmentation(image.lena())
 
-net = vision.models.inceptionv3.load{ -- download included
+net = vision.models.inceptionv3.loadExtracting{ -- download included
    filename = 'tmp/inceptionv3.t7',
-   fextract = true
+   layerid  = 30
 }
 net:evaluate()
-print(net:forward(img:view(1,3,299,299)):size())
+print(net:forward(img:view(1,3,299,299)):size()) -- 2048
 ```
 
+### Fine tuning on MIT67 in 250 lines of code
+
+```
+CUDA_VISIBLE_DEVICES=0 th demo/mainmit67.lua -usegpu true
+ls demo/logs/mit67/*/
+cat demo/logs/mit67/*/trainlog.txt
+cat demo/logs/mit67/*/testlog.txt
+```  
 
 ## Roadmap
 
 - defining names for package and classes (vision?)
-- keep TransformImage non-static ?
 - add docs to TransformImage methods
 - add test
 - add a method to tnt.DataIterator to process the mean and std
