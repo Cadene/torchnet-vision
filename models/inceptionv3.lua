@@ -40,7 +40,7 @@ inceptionv3.loadFinetuning = argcheck{
 
 inceptionv3.loadExtracting = argcheck{
    {name='filename', type='string'},
-   {name='layerid',  type='string'},
+   {name='layerid',  type='number'},
    call =
       function(filename, layerid)
          local net = inceptionv3.load(filename)
