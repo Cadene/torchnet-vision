@@ -4,8 +4,10 @@
 of abstractions aiming at encouraging code re-use as well as encouraging
 modular programming.
 
-At the moment, *torchnet-vision* provides one class:
+At the moment, *torchnet-vision* provides several functionalities:
   - TransformImage: pre-processing image in various ways.
+  - Datasets: download and load dataset easily.
+  - Models: download and load models easily.  
 
 For an overview of the *torchnet* framework, please also refer to [this paper](https://lvdmaaten.github.io/publications/papers/Torchnet_2016.pdf).
 
