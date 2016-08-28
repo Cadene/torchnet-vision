@@ -2,7 +2,6 @@ require 'image'
 require 'os'
 require 'optim'
 ffi = require 'ffi'
-unistd = require 'posix.unistd'
 local tnt            = require 'torchnet'
 local vision         = require 'torchnet-vision'
 local logtext        = require 'torchnet.log.view.text'
@@ -26,7 +25,6 @@ local config = cmd:parse(arg)
 print(string.format('running on %s', config.usegpu and 'GPU' or 'CPU'))
 
 config.idGPU = os.getenv('CUDA_VISIBLE_DEVICES') or -1
-config.pid   = unistd.getpid()
 config.date  = os.date("%y_%m_%d_%X")
 torch.setdefaulttensortype('torch.FloatTensor')
 torch.manualSeed(config.seed)
