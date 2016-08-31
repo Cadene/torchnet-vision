@@ -61,11 +61,18 @@ print(net:forward(img:view(1,3,299,299)):size()) -- 2048
 ### Fine tuning on MIT67 in 250 lines of code
 
 ```
-CUDA_VISIBLE_DEVICES=0 th demo/mainmit67.lua -usegpu true
-ls demo/logs/mit67/*/
-cat demo/logs/mit67/*/trainlog.txt
-cat demo/logs/mit67/*/testlog.txt
+$ CUDA_VISIBLE_DEVICES=0 th demo/mainmit67.lua -usegpu true
+$ ls demo/logs/mit67/*/
+$ cat demo/logs/mit67/*/trainlog.txt
+$ cat demo/logs/mit67/*/testlog.txt
 ```  
+
+## Other projects using torchnet
+
+- [Wide residual network](https://github.com/szagoruyko/wide-residual-networks)
+- [MultiGPU ImageNet](https://github.com/karandwivedi42/imagenet-multiGPU.torchnet)
+- [Learning to Compare Image Patches via Convolutional Neural Networks (CVPR 2015)](https://github.com/szagoruyko/cvpr15deepcompare/blob/master/training/train.lua)
+- [Facebook "A MultiPath Network for Object Detection"](https://github.com/facebookresearch/multipathnet)
 
 ## Roadmap
 
