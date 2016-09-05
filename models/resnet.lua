@@ -19,6 +19,7 @@ resnet.__download = argcheck{
 
 resnet.load = argcheck{
    {name='filename', type='string'},
+   {name='length', type='number', default=200}
    call =
       function(filename)
          if not path.exists(filename) then
