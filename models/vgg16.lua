@@ -37,7 +37,7 @@ vgg16.loadFinetuning = argcheck{
          for i=net:size(), layerid+1, -1 do
             net:get(i):reset()
          end
-         net:insert(nn.GradientReversal(-1*ftfactor), layerid)
+         net:insert(nn.GradientReversal(-1.0/ftfactor), layerid)
          return net
       end
 }

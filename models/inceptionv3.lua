@@ -32,7 +32,7 @@ inceptionv3.loadFinetuning = argcheck{
          local net = inceptionv3.load(filename)
          net:remove() -- nn.SoftMax
          net:remove() -- nn.Linear
-         net:add(nn.GradientReversal(-1*ftfactor))
+         net:add(nn.GradientReversal(-1.0/ftfactor))
          net:add(nn.Linear(2048, nclasses))
          return net
       end

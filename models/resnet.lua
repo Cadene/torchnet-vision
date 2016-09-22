@@ -29,6 +29,20 @@ resnet.load = argcheck{
       end
 }
 
+resnet.loadFinetuning = argcheck{
+   {name='filename', type='string'},
+   {name='nclasses', type='number'},
+   {name='ftfactor', type='number', default=10},
+   call =
+      function(filename, nclasses, ftfactor)
+         local net = resnet.load(filename)
+         net:remove() -- nn.Linear
+         net:add(nn.GradientReversal(-1.0/ftfactor))
+         net:add(nn.Linear(2048, nclasses))
+         return net
+      end
+}
+
 resnet.colorMode = 'RGB'
 resnet.inputSize = {3, 224, 224}
 resnet.mean = torch.Tensor{0.485, 0.456, 0.406}
