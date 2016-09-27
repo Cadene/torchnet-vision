@@ -56,7 +56,7 @@ utils.loadDataset = argcheck{
          local classes, class2target = utils.findClasses(dirname)
          local pathfilename = dirname..'/'..filename
          if not paths.filep(pathfilename) then
-            utils.findFilenames(dirname, classes, 'filename.txt')
+            utils.findFilenames(dirname, classes, filename)
          end
          local dataset = tnt.ListDataset{
             filename = pathfilename,
