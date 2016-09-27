@@ -62,7 +62,9 @@ utils.loadDataset = argcheck{
             filename = pathfilename,
             path = dirname,
             load = function(line)
-               local sample = {path=line}
+               local sample = {
+                  path = line
+               }
                return sample
             end
          }

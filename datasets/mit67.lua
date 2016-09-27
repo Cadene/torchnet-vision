@@ -1,7 +1,7 @@
 local argcheck = require 'argcheck'
-
 local tnt   = require 'torchnet'
 local utils = require 'torchnet-vision.datasets.utils'
+local lsplit = string.split
 
 local mit67 = {}
 
@@ -40,21 +40,23 @@ mit67.load = argcheck{
             mit67.__download(dirname)
          end
          local classes, class2target = utils.findClasses(dirimg)
+         local loadSample = function(line)
+            local spl = lsplit(line, '/')
+            local sample  = {}
+            sample.path   = line
+            sample.label  = spl[#spl-1]
+            sample.target = class2target[sample.label]
+            return sample
+         end
          local trainset = tnt.ListDataset{
             filename = traintxt,
-            path = dirimg,
-            load = function(line)
-               local sample = {path=line}
-               return sample
-            end
+            path     = dirimg,
+            load     = loadSample
          }
          local testset = tnt.ListDataset{
             filename = testtxt,
-            path = dirimg,
-            load = function(line)
-               local sample = {path=line}
-               return sample
-            end
+            path     = dirimg,
+            load     = loadSample
          }
          return trainset, testset, classes, class2target
       end

@@ -7,7 +7,6 @@ local vision         = require 'torchnet-vision'
 local logtext        = require 'torchnet.log.view.text'
 local logstatus      = require 'torchnet.log.view.status'
 local transformimage = require 'torchnet-vision.image.transformimage'
-local lsplit = string.split -- string can't be serialized thus we use a local var
 
 local cmd = torch.CmdLine()
 cmd:option('-seed', 1337, 'seed for cpu and gpu')
@@ -67,9 +66,6 @@ local criterion = nn.CrossEntropyCriterion():float()
 
 local function addTransforms(dataset, model)
    dataset = dataset:transform(function(sample)
-      local spl = lsplit(sample.path,'/')
-      sample.label  = spl[#spl-1]
-      sample.target = class2target[sample.label]
       sample.input  = tnt.transform.compose{
          function(path) return image.load(path, 3) end,
          transformimage.randomScale{

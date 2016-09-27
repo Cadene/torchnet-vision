@@ -17,9 +17,31 @@ ethzfood101.load = argcheck{
    {name='dirname', type='string', default='data/raw/ethzfood101'},
    call =
       function(dirname)
+         local dirimg   = paths.concat(dirname,'food-101','images')
+         local traintxt = paths.concat(dirname,'food-101','meta','train.txt')
+         local testtxt  = paths.concat(dirname,'food-101','meta','test.txt')
          if not paths.dirp(dirname) then
             ethzfood101.__download(dirname)
          end
+         local classes, class2target = utils.findClasses(dirimg)
+         local loadSample = function(line)
+            local spl = lsplit(line, '/')
+            local sample  = {}
+            sample.path   = line..'.jpg'
+            sample.label  = spl[#spl-1]
+            sample.target = class2target[sample.label]
+            return sample
+         end
+         local trainset = tnt.ListDataset{
+            filename = traintxt,
+            path     = dirimg,
+            load     = loadSample 
+         }
+         local testset = tnt.ListDataset{
+            filename = testtxt,
+            path     = dirimg,
+            load     = loadSample 
+         }
          return trainset, testset, classes, class2target
       end
 }
