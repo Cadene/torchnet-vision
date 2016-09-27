@@ -61,7 +61,7 @@ print(net:forward(img:view(1,3,299,299)):size()) -- 2048
 ### Fine tuning on MIT67 in 250 lines of code
 
 ```
-$ CUDA_VISIBLE_DEVICES=0 th demo/mainmit67.lua -usegpu true
+$ CUDA_VISIBLE_DEVICES=0 th example/mit67finetuning.lua -usegpu true
 $ ls demo/logs/mit67/*/
 $ cat demo/logs/mit67/*/trainlog.txt
 $ cat demo/logs/mit67/*/testlog.txt

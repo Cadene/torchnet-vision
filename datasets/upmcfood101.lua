@@ -1,5 +1,7 @@
 local argcheck = require 'argcheck'
+local tnt = require 'torchnet'
 local utils = require 'torchnet-vision.datasets.utils'
+local lsplit = string.split
 
 local upmcfood101 = {}
 
@@ -18,18 +20,20 @@ upmcfood101.load = argcheck{
    {name='dirname', type='string', default='data/raw/upmcfood101'},
    call =
       function(dirname)
-         local dirimg   = paths.concat(dirname, 'images')
-         local traintxt = paths.concat(dirname, 'TrainImages.txt')
-         local testtxt  = paths.concat(dirname, 'TestImages.txt')
+         local dirimg   = paths.concat(dirname,'images')
+         local dirtrain = paths.concat(dirimg,'train')
+         local dirtest  = paths.concat(dirimg,'test')
+         local traintxt = paths.concat(dirtrain,'TrainImages.txt')
+         local testtxt  = paths.concat(dirtest,'TestImages.txt')
          if not paths.dirp(dirname) then
             upmcfood101.__download(dirname)
          end
-         local classes, class2target = utils.findClasses(dirimg)
+         local classes, class2target = utils.findClasses(dirtrain)
          if not paths.filep(traintxt) then
-            utils.findFilenames(dirimg..'/train', classes, traintxt)
+            utils.findFilenames(dirtrain, classes, 'TrainImages.txt')
          end
          if not paths.filep(testtxt) then
-            utils.findFilenames(dirimg..'/test', classes, testtxt)
+            utils.findFilenames(dirtest, classes, 'TestImages.txt')
          end
          local loadSample = function(line)
                local spl = lsplit(line, '/')
@@ -41,12 +45,12 @@ upmcfood101.load = argcheck{
             end
          local trainset = tnt.ListDataset{
             filename = traintxt,
-            path     = dirimg,
+            path     = dirtrain,
             load     = loadSample
          }
          local testset = tnt.ListDataset{
             filename = testtxt,
-            path     = dirimg,
+            path     = dirtest,
             load     = loadSample
          }
          return trainset, testset, classes, class2target

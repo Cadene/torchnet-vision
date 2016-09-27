@@ -1,4 +1,7 @@
 local argcheck = require 'argcheck'
+local tnt = require 'torchnet'
+local utils = require 'torchnet-vision.datasets.utils'
+local lsplit = string.split
 
 local ethzfood101 = {}
 
@@ -35,12 +38,12 @@ ethzfood101.load = argcheck{
          local trainset = tnt.ListDataset{
             filename = traintxt,
             path     = dirimg,
-            load     = loadSample 
+            load     = loadSample
          }
          local testset = tnt.ListDataset{
             filename = testtxt,
             path     = dirimg,
-            load     = loadSample 
+            load     = loadSample
          }
          return trainset, testset, classes, class2target
       end

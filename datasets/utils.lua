@@ -29,7 +29,7 @@ utils.findFilenames = argcheck{
    {name='filename', type='string', default='filename.txt'},
    call =
       function(dirname, classes, filename)
-         local pathfilename = dirname..'/'..filename
+         local pathfilename = paths.concat(dirname,filename)
          local find = 'find'
          local extensionList = {'jpg', 'png', 'JPG', 'PNG', 'JPEG',
                                 'ppm', 'PPM', 'bmp', 'BMP'}
@@ -38,9 +38,12 @@ utils.findFilenames = argcheck{
             findOptions = findOptions .. ' -o'
                               ..' -iname "*.' .. extensionList[i] .. '"'
          end
+         print(pathfilename)
          assert(not paths.filep(pathfilename),
             'filename already exists, you should remove it first')
          for _, class in pairs(classes) do
+            print(find..' "'..dirname..'/'..class..'" '..findOptions
+                       ..' | grep -o \'[^/]*/[^/]*$\' >> '..pathfilename)
             os.execute(find..' "'..dirname..'/'..class..'" '..findOptions
                        ..' | grep -o \'[^/]*/[^/]*$\' >> '..pathfilename)
          end
