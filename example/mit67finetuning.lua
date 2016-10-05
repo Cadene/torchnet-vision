@@ -28,7 +28,7 @@ config.date  = os.date("%y_%m_%d_%X")
 torch.setdefaulttensortype('torch.FloatTensor')
 torch.manualSeed(config.seed)
 
-local path          = './demo'
+local path          = './example'
 local pathmodel     = path..'/models/'..config.model..'/net.t7'
 local pathdata      = path..'/data/raw/mit67'
 local pathdataset   = path..'/data/processed/mit67'
