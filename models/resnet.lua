@@ -15,7 +15,7 @@ resnet.__download = argcheck{
 
 resnet.load = argcheck{
    {name='filename', type='string'},
-   {name='length', type='number'},
+   {name='length', type='number',
     help='18, 34, 50, 101, 152, 200',
     check=function(length)
             return length == 18  or length == 34  or length == 50 or
