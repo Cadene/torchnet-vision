@@ -4,11 +4,7 @@ local resnet = {}
 
 resnet.__download = argcheck{
    {name='filename', type='string'},
-   {name='length', type='number', default=200, help='18, 34, 50, 101, 152, 200',
-    check=function(length)
-            return length == 18  or length == 34  or length == 50 or
-                   length == 101 or length == 152 or length == 200
-          end},
+   {name='length', type='number'},
    call =
       function(filename, length)
          os.execute('mkdir -p '..paths.dirname(filename)..';'
@@ -19,11 +15,17 @@ resnet.__download = argcheck{
 
 resnet.load = argcheck{
    {name='filename', type='string'},
-   {name='length', type='number', default=200},
+   {name='length', type='number'},
+    help='18, 34, 50, 101, 152, 200',
+    check=function(length)
+            return length == 18  or length == 34  or length == 50 or
+                   length == 101 or length == 152 or length == 200
+          end
+   },
    call =
-      function(filename)
+      function(filename, length)
          if not path.exists(filename) then
-            resnet.__download(filename)
+            resnet.__download(filename, length)
          end
          return torch.load(filename)
       end
